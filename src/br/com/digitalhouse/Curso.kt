@@ -2,11 +2,15 @@ package br.com.digitalhouse
 
 import br.com.digitalhouse.exceptions.VagasExgotadasException
 import br.com.digitalhouse.pessoas.Aluno
+import br.com.digitalhouse.pessoas.ProfessorAdjunto
+import br.com.digitalhouse.pessoas.ProfessorTitular
 
 class Curso(val nome: String, val codigoCurso: Int, quantidadeMaximaDeAlunos: Int) {
 
     private val alunos = mutableListOf<Aluno>()
     private var vagasOcupadas = 0
+    var professorTitular: ProfessorTitular? = null
+    var professorAdjunto: ProfessorAdjunto? = null
     val vagasDisponiveis: Int
 
     init {
@@ -46,6 +50,8 @@ class Curso(val nome: String, val codigoCurso: Int, quantidadeMaximaDeAlunos: In
     }
 
     override fun toString(): String {
-        return "Curso $nome, codigo: $codigoCurso"
+        return "$nome, codigo: $codigoCurso, lotação: $vagasOcupadas/$vagasDisponiveis\n" +
+                "Professor titular: $professorTitular\n" +
+                "Professor adjunto: $professorAdjunto"
     }
 }
