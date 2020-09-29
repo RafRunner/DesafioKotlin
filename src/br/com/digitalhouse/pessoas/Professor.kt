@@ -12,4 +12,8 @@ open class Professor(nome: String, sobrenome: String, var tempoDeCasa: Int, val 
     override fun hashCode(): Int {
         return 31 * codigoProfessor.hashCode()
     }
+
+    override fun toString(): String {
+        return "$nome $sobrenome, código: $codigoProfessor, tempo de casa: $tempoDeCasa"
+    }
 }

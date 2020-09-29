@@ -7,8 +7,8 @@ import br.com.digitalhouse.pessoas.ProfessorTitular
 
 class Curso(val nome: String, val codigoCurso: Int, quantidadeMaximaDeAlunos: Int) {
 
-    private val alunos = mutableListOf<Aluno>()
-    private var vagasOcupadas = 0
+    val alunos = mutableListOf<Aluno>()
+    var vagasOcupadas = 0
     var professorTitular: ProfessorTitular? = null
     var professorAdjunto: ProfessorAdjunto? = null
     val vagasDisponiveis: Int
@@ -51,6 +51,7 @@ class Curso(val nome: String, val codigoCurso: Int, quantidadeMaximaDeAlunos: In
 
     override fun toString(): String {
         return "$nome, codigo: $codigoCurso, lotação: $vagasOcupadas/$vagasDisponiveis\n" +
+                "Professores:\n" +
                 "Professor titular: $professorTitular\n" +
                 "Professor adjunto: $professorAdjunto"
     }

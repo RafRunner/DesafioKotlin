@@ -17,8 +17,15 @@ class DigitalHouseManeger {
         cursos.adicionaSeNaoPresente(curso)
     }
 
+    private fun encontraCursoPorCodigo(codigo: Int): Curso? = cursos.find { it.codigoCurso == codigo }
+
     fun excluirCurso(codigoCurso: Int) {
-        cursos.remove(cursos.find { it.codigoCurso == codigoCurso })
+        val curso = encontraCursoPorCodigo(codigoCurso) ?: return
+        val alunos = curso.alunos
+
+        cursos.remove(curso)
+        matriculas.removeAll { it.curso == curso }
+        alunos.removeAll(alunos)
     }
 
     fun registrarProfessorAdjunto(nome: String, sobrenome: String, codigoProfessor: Int, quantidadeDeHoras: Int) {
@@ -31,8 +38,20 @@ class DigitalHouseManeger {
         professores.adicionaSeNaoPresente(professorTitular)
     }
 
+    private fun encontraProfessorPorCodigo(codigo: Int): Professor? = professores.find { it.codigoProfessor == codigo }
+
     fun excluirProfessor(codigoProfessor: Int) {
-        professores.remove(professores.find { it.codigoProfessor == codigoProfessor })
+        val professor = encontraProfessorPorCodigo(codigoProfessor) ?: return
+
+        professores.remove(professor)
+        cursos.forEach {
+            if (it.professorAdjunto == professor) {
+                it.professorAdjunto = null
+            }
+            if (it.professorTitular == professor) {
+                it.professorTitular = null
+            }
+        }
     }
 
     fun cadastrarAluno(nome: String, sobrenome: String, codigoAluno: Int) {
@@ -41,7 +60,7 @@ class DigitalHouseManeger {
     }
 
     fun matricularAluno(codigoAluno: Int, codigoCurso: Int) {
-        val curso = cursos.find { it.codigoCurso == codigoCurso }
+        val curso = encontraCursoPorCodigo(codigoCurso)
 
         if (curso == null) {
             println("Curso de código $codigoCurso inexistente")
@@ -51,37 +70,37 @@ class DigitalHouseManeger {
         val aluno = alunos.find { it.codigoAluno == codigoAluno }
 
         if (aluno == null) {
-            println("O aluno de código $codigoAluno deve estar cadsatrado antes de ser matriculado!")
+            println("O aluno de código $codigoAluno deve estar cadsatrado antes de ser matriculado!\n")
             return
         }
 
         if (curso.adicionarUmAluno(aluno)) {
             matriculas.add(Matricula(aluno, curso))
-            print("Matrícula de $aluno realizado com sucesso em $curso")
+            println("Matrícula de $aluno realizado com sucesso no curso:\n$curso\n")
         } else {
-            println("Não foi possível realizar matrícula do aluno $aluno pois as vagas se esgotaram em $curso")
+            println("Não foi possível realizar matrícula do aluno $aluno pois as vagas se esgotaram em $curso\n")
         }
     }
 
     fun alocarProfessores(codigoCurso: Int, codigoProfessorTitular: Int, codigoProfessorAdjunto: Int) {
-        val curso = cursos.find { it.codigoCurso == codigoCurso }
+        val curso = encontraCursoPorCodigo(codigoCurso)
 
         if (curso == null) {
-            println("Curso de código $codigoCurso inexistente")
+            println("Curso de código $codigoCurso inexistente\n")
             return
         }
 
-        val professorTitular = professores.find { it.codigoProfessor == codigoProfessorTitular }
+        val professorTitular = encontraProfessorPorCodigo(codigoProfessorTitular)
 
         if (professorTitular == null || professorTitular !is ProfessorTitular) {
-            println("Professor titular de código $codigoProfessorTitular não encontrado")
+            println("Professor titular de código $codigoProfessorTitular não encontrado\n")
             return
         }
 
-        val professorAdjunto = professores.find { it.codigoProfessor == codigoProfessorAdjunto }
+        val professorAdjunto = encontraProfessorPorCodigo(codigoProfessorAdjunto)
 
         if (professorAdjunto == null || professorAdjunto !is ProfessorAdjunto) {
-            println("Professor adjunto de código $codigoProfessorAdjunto não encontrado")
+            println("Professor adjunto de código $codigoProfessorAdjunto não encontrado\n")
             return
         }
 
