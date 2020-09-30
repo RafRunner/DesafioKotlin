@@ -12,10 +12,9 @@ class DigitalHouseManeger {
     private val professores = mutableListOf<Professor>()
     private val cursos = mutableListOf<Curso>()
 
-    fun registrarCurso(nome: String, codigoCurso: Int, quantidadeMaximaDeAlunos: Int) {
-        val curso = Curso(nome, codigoCurso, quantidadeMaximaDeAlunos)
-        cursos.adicionaSeNaoPresente(curso)
-    }
+    fun registrarCurso(curso: Curso) = cursos.adicionaSeNaoPresente(curso)
+
+    fun registrarCurso(nome: String, codigoCurso: Int, quantidadeMaximaDeAlunos: Int) = registrarCurso(Curso(nome, codigoCurso, quantidadeMaximaDeAlunos))
 
     private fun encontraCursoPorCodigo(codigo: Int): Curso? = cursos.find { it.codigoCurso == codigo }
 
@@ -25,7 +24,7 @@ class DigitalHouseManeger {
 
         cursos.remove(curso)
         matriculas.removeAll { it.curso == curso }
-        alunos.removeAll(alunos)
+        this.alunos.removeAll { consultarMatricular(it).isEmpty() }
     }
 
     fun registrarProfessorAdjunto(nome: String, sobrenome: String, codigoProfessor: Int, quantidadeDeHoras: Int) {
@@ -108,4 +107,6 @@ class DigitalHouseManeger {
     }
 
     fun consultarMatricular(aluno: Aluno): List<Matricula> = matriculas.filter { it.aluno == aluno }
+
+    fun getAlunos(): List<Aluno> = alunos.toList()
 }
