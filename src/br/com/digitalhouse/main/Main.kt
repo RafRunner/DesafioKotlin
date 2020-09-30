@@ -10,10 +10,10 @@ fun main() {
     println("Registrando professores")
     digitalHouseManeger.registrarProfessorTitular("Rodolfo", "Rodriguez", 100,  "Java")
     digitalHouseManeger.registrarProfessorTitular("Reneta", "Alvez", 200,  "Javascript")
-    println()
 
     digitalHouseManeger.registrarProfessorAdjunto("Vitória", "Silva", 20, 110)
     digitalHouseManeger.registrarProfessorAdjunto("Breno", "Nunes", 50, 111)
+    println()
 
     val curso1 = Curso("Full Stack", 20001, 3)
     val curso2 = Curso("Android", 20002, 2)
