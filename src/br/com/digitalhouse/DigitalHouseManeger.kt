@@ -54,10 +54,9 @@ class DigitalHouseManeger {
         }
     }
 
-    fun cadastrarAluno(nome: String, sobrenome: String, codigoAluno: Int) {
-        val aluno = Aluno(nome, sobrenome, codigoAluno)
-        alunos.adicionaSeNaoPresente(aluno)
-    }
+    fun cadastrarAluno(aluno: Aluno) = alunos.adicionaSeNaoPresente(aluno)
+
+    fun cadastrarAluno(nome: String, sobrenome: String, codigoAluno: Int) = cadastrarAluno(Aluno(nome, sobrenome, codigoAluno))
 
     fun matricularAluno(codigoAluno: Int, codigoCurso: Int) {
         val curso = encontraCursoPorCodigo(codigoCurso)
@@ -107,4 +106,6 @@ class DigitalHouseManeger {
         curso.professorTitular = professorTitular
         curso.professorAdjunto = professorAdjunto
     }
+
+    fun consultarMatricular(aluno: Aluno): List<Matricula> = matriculas.filter { it.aluno == aluno }
 }
