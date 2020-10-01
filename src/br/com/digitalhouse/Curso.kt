@@ -7,11 +7,11 @@ import br.com.digitalhouse.pessoas.ProfessorTitular
 
 class Curso(val nome: String, val codigoCurso: Int, quantidadeMaximaDeAlunos: Int) {
 
-    val alunos = mutableListOf<Aluno>()
-    var vagasOcupadas = 0
     var professorTitular: ProfessorTitular? = null
     var professorAdjunto: ProfessorAdjunto? = null
-    val vagasDisponiveis: Int
+    private val alunos = mutableListOf<Aluno>()
+    private val vagasDisponiveis: Int
+    private var vagasOcupadas = 0
 
     init {
         if (quantidadeMaximaDeAlunos <= 0) {

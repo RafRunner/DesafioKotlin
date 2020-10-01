@@ -12,15 +12,14 @@ class DigitalHouseManeger {
     private val professores = mutableListOf<Professor>()
     private val cursos = mutableListOf<Curso>()
 
-    fun registrarCurso(curso: Curso) = cursos.adicionaSeNaoPresente(curso)
+    fun registrarCurso(curso: Curso): Boolean = cursos.adicionaSeNaoPresente(curso)
 
-    fun registrarCurso(nome: String, codigoCurso: Int, quantidadeMaximaDeAlunos: Int) = registrarCurso(Curso(nome, codigoCurso, quantidadeMaximaDeAlunos))
+    fun registrarCurso(nome: String, codigoCurso: Int, quantidadeMaximaDeAlunos: Int): Boolean = registrarCurso(Curso(nome, codigoCurso, quantidadeMaximaDeAlunos))
 
     private fun encontraCursoPorCodigo(codigo: Int): Curso? = cursos.find { it.codigoCurso == codigo }
 
     fun excluirCurso(codigoCurso: Int) {
         val curso = encontraCursoPorCodigo(codigoCurso) ?: return
-        val alunos = curso.alunos
 
         cursos.remove(curso)
         matriculas.removeAll { it.curso == curso }
@@ -53,9 +52,9 @@ class DigitalHouseManeger {
         }
     }
 
-    fun cadastrarAluno(aluno: Aluno) = alunos.adicionaSeNaoPresente(aluno)
+    fun cadastrarAluno(aluno: Aluno): Boolean = alunos.adicionaSeNaoPresente(aluno)
 
-    fun cadastrarAluno(nome: String, sobrenome: String, codigoAluno: Int) = cadastrarAluno(Aluno(nome, sobrenome, codigoAluno))
+    fun cadastrarAluno(nome: String, sobrenome: String, codigoAluno: Int): Boolean = cadastrarAluno(Aluno(nome, sobrenome, codigoAluno))
 
     fun matricularAluno(codigoAluno: Int, codigoCurso: Int) {
         val curso = encontraCursoPorCodigo(codigoCurso)
